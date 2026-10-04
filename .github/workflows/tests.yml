@@ -1,0 +1,74 @@
+name: Tests
+
+# Checks the formula on every push to main. A public tap also installs and
+# tests it on every supported platform. A private tap stops after style and
+# an offline audit: its formula downloads release assets of another private
+# repository, which this workflow's token cannot read, and a private tap's
+# users install with their own token.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  formula:
+    name: Formula (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        # Apple Silicon macOS, Intel macOS and Linux (x64) for a public tap;
+        # style and audit give the same answer on every platform, so a
+        # private tap runs them once.
+        os: ${{ fromJSON(github.event.repository.private && '["ubuntu-latest"]' || '["macos-26","macos-15-intel","ubuntu-latest"]') }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    env:
+      PUBLIC_TAP: ${{ !github.event.repository.private }}
+    steps:
+      - name: Set up Homebrew and this tap
+        id: homebrew
+        # Taps and trusts this repository itself at the pushed commit.
+        uses: Homebrew/actions/setup-homebrew@848c272c7bfe984a197bd4d16383f4c106ec61e6 # 2026.09.21.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Style
+        env:
+          TAP: ${{ steps.homebrew.outputs.tap-name }}
+        run: brew style "$TAP/novaos-cli"
+
+      - name: Audit
+        env:
+          TAP: ${{ steps.homebrew.outputs.tap-name }}
+        run: |
+          set -euo pipefail
+          if [[ "$PUBLIC_TAP" == "true" ]]; then
+            brew audit --strict --online --formula "$TAP/novaos-cli"
+          else
+            brew audit --strict --formula "$TAP/novaos-cli"
+          fi
+
+      - name: Install
+        if: env.PUBLIC_TAP == 'true'
+        env:
+          TAP: ${{ steps.homebrew.outputs.tap-name }}
+        run: brew install "$TAP/novaos-cli"
+
+      - name: Test
+        if: env.PUBLIC_TAP == 'true'
+        env:
+          TAP: ${{ steps.homebrew.outputs.tap-name }}
+        run: brew test "$TAP/novaos-cli"
+
+      - name: Uninstall
+        if: env.PUBLIC_TAP == 'true'
+        run: brew uninstall novaos-cli
