@@ -1,10 +1,6 @@
 class NovaosCli < Formula
   desc "Command-line tool for building, running and publishing NovaOS agents"
   homepage "https://github.com/OrbitronAI-Repo/novaos-cli"
-  # Explicit: no asset URL carries a version Homebrew can parse. Download
-  # URLs end in an architecture ("...-arm64"), which it would misread as the
-  # version, and API asset URLs contain only a numeric asset ID.
-  version "2.0.0"
   license "MIT"
 
   livecheck do
