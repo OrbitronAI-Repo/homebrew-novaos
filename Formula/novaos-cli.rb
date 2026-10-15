@@ -10,23 +10,23 @@ class NovaosCli < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/OrbitronAI-Repo/novaos-cli/releases/download/v2.0.0/novaos-cli-darwin-arm64"
-      sha256 "7c4203621e3f31f8075c693584b2db639c080dadd77675a89682e3b07b5b7580"
+      url "https://github.com/OrbitronAI-Repo/novaos-cli/releases/download/v2.1.0/novaos-cli-darwin-arm64"
+      sha256 "df12d3a06ba60216d1623282fbb2cd0dcd19f268da077c67665d20278f2aacf8"
     end
     on_intel do
-      url "https://github.com/OrbitronAI-Repo/novaos-cli/releases/download/v2.0.0/novaos-cli-darwin-x64"
-      sha256 "d0e11e7cf1ba8be5e3c788fbdc3eee0f2898c6beaeccc8d4847f94d65d27f196"
+      url "https://github.com/OrbitronAI-Repo/novaos-cli/releases/download/v2.1.0/novaos-cli-darwin-x64"
+      sha256 "1296c283959ec15e25ef78f3d120271ca8d30cc4c7b978bbc17e72aef604f0fb"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/OrbitronAI-Repo/novaos-cli/releases/download/v2.0.0/novaos-cli-linux-arm64"
-      sha256 "a84d828360358dbda7d577e04c86874c2868d02b07f3e3f5d96c9f42a737f2d7"
+      url "https://github.com/OrbitronAI-Repo/novaos-cli/releases/download/v2.1.0/novaos-cli-linux-arm64"
+      sha256 "278c83e01fa8dce5c5a244f1d8bc99f630868a7abfe8018686b03f83743deb0f"
     end
     on_intel do
-      url "https://github.com/OrbitronAI-Repo/novaos-cli/releases/download/v2.0.0/novaos-cli-linux-x64"
-      sha256 "a3f6e32b0ad4e818d2f0e8bafde9d458e70389c8d49f7f5d6fab77c9ec7524ed"
+      url "https://github.com/OrbitronAI-Repo/novaos-cli/releases/download/v2.1.0/novaos-cli-linux-x64"
+      sha256 "b8de9186d0df0a621bdf0969d1db0a6bcc26854eb7bae0b1b03aff2735fffa47"
     end
   end
 
